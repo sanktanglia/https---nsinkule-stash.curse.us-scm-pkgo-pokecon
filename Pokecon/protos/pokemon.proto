@@ -1,0 +1,208 @@
+syntax = "proto3";
+
+message RequestEnvelop {
+  int32 unknown1 = 1;
+  int64 rpc_id = 3;
+  repeated Requests requests = 4;
+  Unknown6 unknown6 = 6;
+  double latitude = 7;
+  double longitude = 8;
+  double altitude = 9;
+  AuthInfo auth = 10;
+  int64 unknown12 = 12;
+
+  message Requests {
+    int32 type = 1;
+    bytes message = 2;
+  }
+
+  message four2int{
+      uint64 value=1;
+  }
+   
+  message four2stringgym{
+    repeated uint64 cells=1 [packed=true];
+    fixed64 dunno = 2;
+    double lat = 3;
+    double lon = 4;
+  }
+
+    message four2stringauth{
+      string value=1;
+      double PlayerLatDegrees = 2;
+      double PlayerLngDegrees = 3;
+      double GymLatDegrees = 4;
+      double GymLngDegrees = 5;
+  }
+
+  message Unknown6 {
+    int32 unknown1 = 1;
+    Unknown2 unknown2 = 2;
+
+    message Unknown2 {
+      bytes unknown1 = 1;
+    }
+
+  }
+  message AuthInfo {
+    string provider = 1;
+    JWT token = 2;
+
+    message JWT {
+      string contents = 1;
+      int32 unknown13  = 2;
+    }
+  }
+}
+
+message ResponseEnvelop {
+  int32 unknown1 = 1;
+  int64 unknown2 = 2;
+  string api_url = 3;
+  Unknown6 unknown6 = 6;
+  Unknown7 unknown7 = 7;
+  repeated Payload payload = 100;
+
+  message Unknown6 {
+    int32 unknown1 = 1;
+    Unknown2 unknown2 = 2;
+
+    message Unknown2 {
+      bytes unknown1 = 1;
+    }
+
+  }
+
+  message Unknown7 {
+    bytes unknown71 = 1;
+    int64 unknown72 = 2;
+    bytes unknown73 = 3;
+  }
+
+  message Payload {
+    int32 unknown1 = 1;
+    bytes PayloadData = 2;
+  }
+
+  message Profile {
+    int64 creation_time = 1;
+    string username = 2;
+    int32 team = 5;
+    bytes tutorial = 7; 
+    AvatarDetails avatar = 8; 
+    int32 poke_storage = 9;
+    int32 item_storage = 10;
+    string unknown11 = 11;
+    string unknown12 = 12;
+    string unknown13 = 13;
+    repeated Currency currency = 14;
+
+    message AvatarDetails {
+      int32 unknown2 = 2;
+      int32 unknown3 = 3;
+      int32 unknown9 = 9;
+      int32 unknown10 = 10;
+    }
+
+    message Currency {
+      string type = 1;
+      int32 amount = 2;
+    }
+  }
+}
+
+message MapObjectsPayload {
+    repeated ClientMapCell cells = 1;
+	int32 unknownnumber = 2;
+  
+  message ClientMapCell {
+    uint64 S2CellId = 1;
+    int64 AsOfTimeMs = 2;
+    repeated PokemonFortProto Fort = 3;
+    repeated ClientSpawnPointProto SpawnPoint = 4;
+    repeated WildPokemonProto WildPokemon = 5;
+    //unknown DeletedObject = 6;
+    bool IsTruncatedList = 7;
+    repeated PokemonSummaryFortProto FortSummary = 8;
+    repeated ClientSpawnPointProto DecimatedSpawnPoint = 9;
+    repeated MapPokemonProto MapPokemon = 10;
+    repeated NearbyPokemonProto NearbyPokemon = 11;
+  }
+
+
+  message WildPokemon {
+    string UniqueId = 1;
+    string PokemonId = 2;
+    // int64 three = 3;
+    // float four = 4;
+    // int32 five = 5;
+    // unknown six = 6;
+    repeated NearbyPokemonProto pokemon = 11;
+  }
+
+
+  message MapPokemonProto {
+    string SpawnpointId = 1;
+    fixed64 EncounterId = 2;
+    int32 PokedexTypeId = 3;
+    int64 ExpirationTimeMs = 4;
+    double Latitude = 5;
+    double Longitude = 6;
+  }
+
+  message PokemonFortProto {
+    string FortId = 1;
+    int64 LastModifiedMs = 2;
+    double Latitude = 3;
+    double Longitude = 4;
+    int32 Team = 5;
+    int32 GuardPokemonId = 6;
+    int32 GuardPokemonLevel = 7;
+    bool Enabled = 8;
+    // ENUM.Holoholo.Rpc.FortType FortType = 9;
+    int32 FortType = 9;
+    int64 GymPoints = 10;
+    bool IsInBattle = 11;
+    //unknown ActiveFortModifier = 12;
+    MapPokemonProto ActivePokemon = 13;
+    int64 CooldownCompleteMs = 14;
+    // ENUM.Holoholo.Rpc.Sponsor.Types.FortSponsor.Sponsor Sponsor = 15;
+    int32 Sponsor = 15;
+    // ENUM.Holoholo.Rpc.RenderingType.Types.FortRenderingType.RenderingType RenderingType = 16;
+    int32 RenderingType = 16;
+  }
+
+  message PokemonSummaryFortProto {
+    string FortSummaryId = 1;
+    int64 LastModifiedMs = 2;
+    double Latitude = 3;
+    double Longitude = 4;
+  }
+
+  message ClientSpawnPointProto {
+    double Latitude = 2;
+    double Longitude = 3;
+  }
+
+  message WildPokemonProto {
+    uint64 EncounterId = 1;
+    int64 LastModifiedMs = 2;
+    double Latitude = 3;
+    double Longitude = 4;
+    string SpawnPointId = 5;
+    Pokemon pokemon = 7;
+    int32 TimeTillHiddenMs = 11;
+
+    message Pokemon {
+    	uint64 Id = 1;
+    	int32 PokemonId = 2;
+    }
+  }
+
+  message NearbyPokemonProto {
+    int32 PokedexNumber = 1;
+    float DistanceMeters = 2;
+    uint64 EncounterId = 3;
+  }
+}
+
